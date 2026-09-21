@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirano FA</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #070a10;
+        color: white;
+        min-height: 100vh;
+    }
+
+    header {
+        width: 100%;
+        min-height: 75px;
+        padding: 15px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #070a10;
+        border-bottom: 1px solid #1c2738;
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 800;
+    }
+
+    .logo span {
+        color: #438cff;
+    }
+
+    nav {
+        display: flex;
+        gap: 30px;
+    }
+
+    nav button {
+        background: none;
+        border: none;
+        color: #c4ccda;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    nav button:hover {
+        color: #438cff;
+    }
+
+    .discord-btn {
+        background: #5865F2;
+        color: white;
+        text-decoration: none;
+        padding: 11px 18px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .page {
+        display: none;
+        min-height: calc(100vh - 75px);
+        padding: 80px 25px;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    .container {
+        max-width: 1150px;
+        margin: auto;
+    }
+
+    .hero {
+        min-height: calc(100vh - 75px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background:
+            radial-gradient(
+                circle at center,
+                #172c4d 0%,
+                #0b111c 45%,
+                #070a10 75%
+            );
+    }
+
+    .hero-content {
+        max-width: 850px;
+    }
+
+    .hero h1 {
+        font-size: 58px;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+        color: #438cff;
+    }
+
+    .hero p {
+        color: #aab3c2;
+        font-size: 19px;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .main-btn {
+        display: inline-block;
+        background: #438cff;
+        color: white;
+        border: none;
+        padding: 14px 26px;
+        border-radius: 9px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .section-title p {
+        color: #8e99aa;
+    }
+
+    .categories {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .category {
+        background: #0e141f;
+        border: 1px solid #1c2738;
+        border-radius: 14px;
+        padding: 35px 20px;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    .category:hover {
+        transform: translateY(-5px);
+        border-color: #438cff;
+    }
+
+    .category-icon {
+        font-size: 45px;
+        margin-bottom: 18px;
+    }
+
+    .category h3 {
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+
+    .category p {
+        color: #8994a5;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .category-page {
+        display: none;
+    }
+
+    .category-page.active-category {
+        display: block;
+    }
+
+    .back-btn {
+        background: transparent;
+        border: 1px solid #1c2738;
+        color: #c4ccda;
+        padding: 12px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 30px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    .back-btn:hover {
+        color: white;
+        border-color: #438cff;
+    }
+
+    .product-category {
+        margin-bottom: 50px;
+    }
+
+    .product-category h3 {
+        font-size: 28px;
+        color: #438cff;
+        margin-bottom: 22px;
+    }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .product {
+        background: #0e141f;
+        border: 1px solid #1c2738;
+        border-radius: 13px;
+        padding: 25px;
+    }
+
+    .product h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .product p {
+        color: #8994a5;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+
+    .price {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    .buy-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #438cff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .owners {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        max-width: 850px;
+        margin: auto;
+    }
+
+    .owner-card {
+        background: #0e141f;
+        border: 1px solid #1c2738;
+        border-radius: 15px;
+        padding: 35px;
+        text-align: center;
+    }
+
+    .owner-card img {
+        width: 115px;
+        height: 115px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #438cff;
+        margin-bottom: 20px;
+    }
+
+    .owner-card h3 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    .owner-role {
+        color: #438cff;
+        font-weight: bold;
+    }
+
+    footer {
+        border-top: 1px solid #1c2738;
+        background: #05070b;
+        text-align: center;
+        padding: 30px 20px;
+        color: #707b8c;
+    }
+
+    @media (max-width: 900px) {
+        header {
+            padding: 15px 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .categories {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .product-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 650px) {
+        nav {
+            order: 3;
+            width: 100%;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+        }
+
+        .categories,
+        .product-grid,
+        .owners {
+            grid-template-columns: 1fr;
+        }
+
+        .discord-btn {
+            display: none;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+    MIRANO <span>FA</span>
+</div>
+
+<nav>
+    <button onclick="showPage('accueil')">Accueil</button>
+    <button onclick="showPage('boutique')">Boutique</button>
+    <button onclick="showPage('equipe')">Équipe</button>
+</nav>
+
+<a
+    class="discord-btn"
+    href="https://discord.gg/EHVUhWVN8"
+    target="_blank"
+>
+    Discord
+</a>
+
+</header>
+
+<!-- ACCUEIL -->
+
+<div id="accueil" class="page active hero">
+
+<div class="hero-content">
+
+    <h1>
+        Bienvenue sur <span>Mirano FA</span>
+    </h1>
+
+    <p>
+        Bienvenue sur le site officiel de Mirano FA.
+        Découvrez notre serveur FiveM, notre communauté
+        et toutes les informations importantes.
+    </p>
+
+    <button
+        class="main-btn"
+        onclick="showPage('boutique')"
+    >
+        Découvrir la boutique
+    </button>
+
+</div>
+
+</div>
+
+<!-- BOUTIQUE -->
+
+<div id="boutique" class="page">
+
+<div class="container">
+
+    <div class="section-title">
+
+        <h2>🛒 Boutique</h2>
+
+        <p>
+            Choisissez une catégorie pour découvrir
+            les produits disponibles.
+        </p>
+
+    </div>
+
+
+    <!-- CHOIX DES CATÉGORIES -->
+
+    <div id="categories" class="categories">
+
+        <div class="category" onclick="showCategory('vip')">
+
+            <div class="category-icon">⭐</div>
+
+            <h3>VIP</h3>
+
+            <p>
+                Nos différents grades VIP.
+            </p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('vehicules')">
+
+            <div class="category-icon">🚗</div>
+
+            <h3>Véhicules</h3>
+
+            <p>
+                Nos véhicules disponibles.
+            </p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('argent')">
+
+            <div class="category-icon">💰</div>
+
+            <h3>Argent</h3>
+
+            <p>
+                Nos packs d'argent.
+            </p>
+
+        </div>
+
+
+        <div class="category" onclick="showCategory('packs')">
+
+            <div class="category-icon">📦</div>
+
+            <h3>Packs</h3>
+
+            <p>
+                Nos différents packs.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- VIP -->
+
+    <div id="vip" class="product-category category-page">
+
+        <button class="back-btn" onclick="backToCategories()">
+            ← Retour aux catégories
+        </button>
+
+        <h3>⭐ VIP</h3>
+
+        <div class="product-grid">
+
+            <div class="product">
+
+                <h4>VIP Bronze</h4>
+
+                <p>
+                    Avantages VIP Bronze.
+                </p>
+
+                <div class="price">
+                    4,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+
+            <div class="product">
+
+                <h4>VIP Silver</h4>
+
+                <p>
+                    Avantages VIP Silver.
+                </p>
+
+                <div class="price">
+                    9,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+
+            <div class="product">
+
+                <h4>VIP Gold</h4>
+
+                <p>
+                    Avantages VIP Gold.
+                </p>
+
+                <div class="price">
+                    19,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- VÉHICULES -->
+
+    <div id="vehicules" class="product-category category-page">
+
+        <button class="back-btn" onclick="backToCategories()">
+            ← Retour aux catégories
+        </button>
+
+        <h3>🚗 Véhicules</h3>
+
+        <div class="product-grid">
+
+            <div class="product">
+
+                <h4>Véhicule Sport</h4>
+
+                <p>
+                    Un véhicule sportif pour votre personnage.
+                </p>
+
+                <div class="price">
+                    14,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+
+            <div class="product">
+
+                <h4>Véhicule Premium</h4>
+
+                <p>
+                    Un véhicule premium.
+                </p>
+
+                <div class="price">
+                    24,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ARGENT -->
+
+    <div id="argent" class="product-category category-page">
+
+        <button class="back-btn" onclick="backToCategories()">
+            ← Retour aux catégories
+        </button>
+
+        <h3>💰 Argent</h3>
+
+        <div class="product-grid">
+
+            <div class="product">
+
+                <h4>100 000 $</h4>
+
+                <p>
+                    100 000 $ en jeu.
+                </p>
+
+                <div class="price">
+                    4,99 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+
+            <div class="product">
+
+                <h4>500 000 $</h4>
+
+                <p>
+                    500 000 $ en jeu.
+                </p>
+
+                <div class="price">
+                    10,00 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PACKS -->
+
+    <div id="packs" class="product-category category-page">
+
+        <button class="back-btn" onclick="backToCategories()">
+            ← Retour aux catégories
+        </button>
+
+        <h3>📦 Packs</h3>
+
+        <div class="product-grid">
+
+            <div class="product">
+
+                <h4>Pack Débutant</h4>
+
+                <p>
+                    Un pack pour commencer votre aventure.
+                </p>
+
+                <div class="price">
+                    2,00 €
+                </div>
+
+                <button class="buy-btn">
+                    Acheter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- EQUIPE -->
+
+<div id="equipe" class="page">
+
+<div class="container">
+
+    <div class="section-title">
+
+        <h2>👑 Notre équipe</h2>
+
+        <p>
+            Découvrez les fondateurs de Mirano FA.
+        </p>
+
+    </div>
+
+
+    <div class="owners">
+
+        <div class="owner-card">
+
+            <img
+                src="https://cdn.discordapp.com/embed/avatars/0.png"
+                alt="webhooks"
+            >
+
+            <h3>webhooks</h3>
+
+            <div class="owner-role">
+                👑 Owner / Créateur
+            </div>
+
+        </div>
+
+
+        <div class="owner-card">
+
+            <img
+                src="https://cdn.discordapp.com/embed/avatars/1.png"
+                alt="By CFX.ez"
+            >
+
+            <h3>By CFX.ez 🔱</h3>
+
+            <div class="owner-role">
+                👑 Owner
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+    © 2026 <strong>Mirano FA</strong> — Tous droits réservés.
+</p>
+
+</footer>
+
+<script>
+
+    function showPage(page) {
+
+        const pages = document.querySelectorAll(".page");
+
+        pages.forEach(function(section) {
+            section.classList.remove("active");
+        });
+
+
+        const selectedPage = document.getElementById(page);
+
+        if (selectedPage) {
+            selectedPage.classList.add("active");
+        }
+
+
+        if (page === "boutique") {
+            backToCategories();
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    function showCategory(category) {
+
+        const categories = document.getElementById("categories");
+
+        if (categories) {
+            categories.style.display = "none";
+        }
+
+
+        const categoryPages = document.querySelectorAll(".category-page");
+
+        categoryPages.forEach(function(page) {
+            page.classList.remove("active-category");
+        });
+
+
+        const selectedCategory = document.getElementById(category);
+
+        if (selectedCategory) {
+
+            selectedCategory.classList.add("active-category");
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    function backToCategories() {
+
+        const categories = document.getElementById("categories");
+
+        if (categories) {
+            categories.style.display = "grid";
+        }
+
+
+        const categoryPages = document.querySelectorAll(".category-page");
+
+        categoryPages.forEach(function(page) {
+            page.classList.remove("active-category");
+        });
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+</script>
+
+</body>
+</html>
