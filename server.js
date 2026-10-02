@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
     console.log("=================================");
-    console.log("          MIRANO FA SHOP");
+    console.log("          SkyWorld FA SHOP");
     console.log("=================================");
     console.log("Site : http://localhost:3000");
 });
